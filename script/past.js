@@ -188,23 +188,31 @@ var data = {
 
 
 
-const datos=data.events
-const time= data.currentDate
-console.log(time)
-console.log(datos.date)
-const init = function chance (){
-const clone=document.getElementById('card').content
-const lista = document.getElementById('contenedor')
-const fragment = document.createDocumentFragment()
-for (let task of datos ){
-  if ( time>task.date )
-
-   clone.querySelector('.card-title').textContent = task.name  
-clone.querySelector('.card-text').textContent = task.description
-clone.querySelector('img').setAttribute('src',task.image)
-
-  lista.appendChild(clone.cloneNode(true))
-  }
+  const datos=data.events
+  const time= data.currentDate
+  console.log(time)
+  console.log(datos.date)
+  const init = function chance (){
+  const clone=document.getElementById('card').content
+  const lista = document.getElementById('contenedor')
+  const fragment = document.createDocumentFragment()
+  for (let task of datos ){
+    if ( time>task.date ){
   
-}
-document.addEventListener('DOMContentLoaded', init)
+     clone.querySelector('.card-title').textContent = task.name  
+  clone.querySelector('.card-text').textContent = task.description
+  clone.querySelector('img').setAttribute('src',task.image)
+  
+  const reflow =lista.appendChild(clone.cloneNode(true))
+  fragment.appendChild(reflow)
+    }
+    
+    }
+    
+  }
+ document.addEventListener('DOMContentLoaded', init)
+
+
+
+
+

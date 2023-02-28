@@ -189,7 +189,8 @@ console.log(datos)
   clone.querySelector('.card-text').textContent = task.description
   clone.querySelector('img').setAttribute('src',task.image)
   
-    lista.appendChild(clone.cloneNode(true))
+  const reflow =lista.appendChild(clone.cloneNode(true))
+  fragment.appendChild(reflow)
     
   }
   }

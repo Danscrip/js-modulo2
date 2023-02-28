@@ -183,13 +183,19 @@ var data = {
   const lista = document.getElementById('contenedor')
   const fragment = document.createDocumentFragment()
   for (let task of datos ){
-    if ( time>task.date )
+    if ( time<task.date ){
   
      clone.querySelector('.card-title').textContent = task.name  
   clone.querySelector('.card-text').textContent = task.description
   clone.querySelector('img').setAttribute('src',task.image)
   
-    lista.appendChild(clone.cloneNode(true))
+  const reflow =lista.appendChild(clone.cloneNode(true))
+  fragment.appendChild(reflow)
+}
+
+
+    
+    
     }
     
   }
