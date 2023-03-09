@@ -176,7 +176,7 @@ var data = {
 
 
 
-  const datos=data.events
+  /*const datos=data.events
 console.log(datos)
 
  
@@ -197,8 +197,88 @@ console.log(datos)
   document.addEventListener('DOMContentLoaded', init)
 
 console.log(3+4)
+*/
+let fechas = data.events
+let datos = data.events
+
+const time = data.currentDate
+let categoria = datos.category
+document.getElementsByClassName('card');
 
 
+let checkboxButtons = document.querySelectorAll(".checkbox")
+console.log(checkboxButtons)
+checkboxButtons.forEach(checkbox => checkbox.addEventListener("change", filtrarCards))
+
+let contenedorCheck = document.getElementById("contenedorCheck")
+
+//esta funcion recibe como un array y crea las cards con esa informacion
+function crearCartas(arr ) {
+
+  let lista = document.getElementById("contenedor")
+let clone = document.getElementById("card").content
+  lista.innerHTML = ""
+  
+  const fragment = document.createDocumentFragment()
+  for (let task of arr) {
+    //if ( time>task.date&&e.target. id==task.category ){
+
+    clone.querySelector('.card-title').textContent = task.name
+    clone.querySelector('.categorys').textContent = task.category
+    clone.querySelector('.card-text').textContent = task.description
+    clone.querySelector('img').setAttribute('src', task.image)
+    const impostores = clone.cloneNode(true)
+
+
+
+
+    fragment.appendChild(impostores)
+
+
+    // } 
+    
+
+  }
+  lista.appendChild(fragment)
+}
+
+
+
+let checkboxSeleccionados = [] ;
+function filtrarCards (e){
+  if (e.target.checked){
+    checkboxSeleccionados.push(e.target.id)
+    filtrarCardsCheckbox(data.events , checkboxSeleccionados)
+  }else{
+    let deseleccionados = checkboxSeleccionados.filter(item => item!== e.target.id)
+    checkboxSeleccionados = deseleccionados
+    filtrarCardsCheckbox(data.events , checkboxSeleccionados)
+  }
+console.log(checkboxSeleccionados)
+console.log(datos)
+console.log(e.target.id)
+//crearCartas(checkboxSeleccionados)
+}
+let coincidenciasArray=[]
+function filtrarCardsCheckbox(arr , arrInputs){
+  if (arrInputs.length===0){
+    crearCartas(datos)
+  }else {
+    coincidenciasArray=[]
+  arr.forEach(element => {
+    for (const input of arrInputs) {
+      if (element.category==input){
+        coincidenciasArray.push(element)
+        //console.log("entro al if")
+      }
+    }
+  })
+  console.log(coincidenciasArray)
+  crearCartas(coincidenciasArray)
+  } 
+}
+
+crearCartas(datos)
 
 
 
