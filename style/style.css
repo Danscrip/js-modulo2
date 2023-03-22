@@ -130,6 +130,7 @@ footer{
     background-color: rgb(219, 214, 214);
 }
 
+
 .main{
 position: relative;
 top: 100px;
@@ -149,7 +150,6 @@ align-items: center;
 .container{
     
 }
-
 .event{
     position: relative;
     top: 100px;
@@ -167,14 +167,14 @@ align-items: center;
     position: relative;
     /*top: 100px;*/
      box-sizing: content-box;
-     height: 400px;
+     height: 600px;
      display: flex;
     /*flex-direction: row;*/
      justify-content: center;
      align-items: center;
      border-style: solid;
      padding: 10px;
-   width: 731px;
+   width: 1200px;
 
 
 }
@@ -192,15 +192,14 @@ align-items: center;
    
 }
 .cinema{
-    width: 400px;
+    width: 500px;
 }
 .details{
     font-size: 30px;
-    width: 300px;
+    width: 500px;
     
 
 }
-
 .details>div{
     width: 300px;
 }
