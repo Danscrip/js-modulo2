@@ -2,7 +2,9 @@ let urlAPI = 'https://mindhub-xj03.onrender.com/api/amazing'
 
 let datos = []
 let categorias = []
-
+let acumulador = [];
+let acumuladorattendance = [];
+let acumuladorcapacity = [];
 
 
 
@@ -24,16 +26,8 @@ async function getEventos() {
 
 
         datos.push(dataAPI)
-        console.log(dataAPI.currentDate);
-        console.log(dataAPI.events[0].assistance)
-        console.log(datos[0].events[0].assistance);
-        console.log(dataAPI.events[0].capacity)
-        console.log(datos[0].events[0].capacity);
-        console.log(dataAPI.events[0].price)
-        console.log(datos[0].events[0].price);
-
-        console.log(Math.round((datos[0].events[0].assistance / datos[0].events[0].capacity) * 100));
-        console.log(Math.round(datos[0].events[0].price * datos[0].events[0].assistance));
+       
+       
 
 
 
@@ -41,13 +35,12 @@ async function getEventos() {
 
 
         categorias = extraerCategorias(datos);
-        console.log(categorias);
+      
         crearTablaUpcoming(categorias)
 
         crearTablaPast(categorias)
 
-
-
+        crearTablaEvents(categorias)
 
 
 
@@ -76,7 +69,7 @@ function extraerCategorias(parametro) {
 
     }
 
-    console.log(categoria);
+   
     return categoria
 
 }
@@ -85,13 +78,13 @@ function crearTablaUpcoming(parametro) {
     let time = "2023-03-10"
     const padre2 = document.querySelector(".tabla2>table>tbody")
     let tableBodyHTML = "";
-    console.log(padre2);
+    
     for (const element of parametro) {
 
-        console.log(element);
+       
 
         let categoriasfiltradas = getCategorias(element, datos);
-        console.log(categoriasfiltradas);
+        
         let promedio = getPercentageOfAtendance(categoriasfiltradas);
         let masGrande = getRevenues(categoriasfiltradas);
         // let masChico = getChico(categoriasfiltradas);
@@ -110,14 +103,14 @@ function crearTablaUpcoming(parametro) {
 
 function getCategorias(parametro, datos) {
     let time = "2023-03-10"
-    console.log(datos[0].currentDate);
+   
     return datos[0].events.filter(dato => dato.category.includes(parametro))
 }
 
 
 function getPercentageOfAtendance(parametro) {
     let time = "2023-03-10"
-    console.log(parametro);
+   
     let sumaAlturas = 0;
     for (const sumatoria of parametro) {
         if (datos[0].currentDate < sumatoria.date) {
@@ -148,10 +141,10 @@ function crearTablaPast(parametro) {
     let time = "2023-03-10"
     const padre2 = document.querySelector(".tabla3>table>tbody")
     let tableBodyHTML = "";
-    console.log(padre2);
+    
     for (const element of parametro) {
 
-        console.log(element);
+        
 
         let categoriasfiltradasP = getCategoriasPast(element, datos);
         console.log(categoriasfiltradasP);
@@ -173,14 +166,14 @@ function crearTablaPast(parametro) {
 
 function getCategoriasPast(parametro, datos) {
     let time = "2023-03-10"
-    console.log(datos[0].currentDate);
+    
     return datos[0].events.filter(dato => dato.category.includes(parametro))
 }
 
 
 function getPercentageOfAtendancePast(parametro) {
     let time = "2023-03-10"
-    console.log(parametro);
+  
     let sumaAlturas = 0;
     for (const sumatoria of parametro) {
         if (datos[0].currentDate > sumatoria.date) {
@@ -206,7 +199,116 @@ function getRevenuesPast(parametro) {
     // parametro.forEach(sumatoria =>);
 }
 
+function crearTablaEvents(parametro) {
+    let time = "2023-03-10"
+    const padre2 = document.querySelector(".tabla1>table>tbody")
+    let tableBodyHTML = "";
+   
 
+
+    let attendancePorce = getAttendance(datos)
+    let eventCapacity = getCapacity(datos)
+    let categoriasfiltradas = getCategoriasEvents(parametro, datos);
+   
+
+
+
+
+
+    let promedioMax = getMaxPercentageOfAtendanceEvents(attendancePorce);
+    
+    let promedioMin = getMinPercentageOfAtendanceEvents(attendancePorce);
+    let masCapacity = getCapacityEvents(eventCapacity);
+    // let masChico = getChico(categoriasfiltradas);
+    tableBodyHTML += `<tr>
+<td>${promedioMax} ${"%"}</td>
+<td> ${promedioMin} ${"%"} </td>
+ <td>  ${masCapacity}</td>
+</tr>`;
+
+    //parametro.forEach(element => {});
+    padre2.innerHTML = tableBodyHTML;
+}
+
+
+function getCategoriasEvents(parametro, datos) {
+    let time = "2023-03-10"
+   
+    return datos[0].events.filter(dato => dato.category.includes(parametro))
+}
+
+
+
+function getMaxPercentage(parametro) {
+    let time = "2023-03-10"
+
+
+    console.log(parametro);
+    let sumaAlturas = 0;
+
+
+
+    acumulador.push((sumatoria.assistance / sumatoria.capacity) * 100)
+
+
+
+
+
+
+    console.log(acumulador);
+
+
+}
+
+function getMaxPercentageOfAtendanceEvents(parametro) {
+  
+
+    
+ 
+ return Math.max.apply(null, parametro)
+
+    
+   
+}
+
+function getMinPercentageOfAtendanceEvents(parametro) {
+    
+    
+ return Math.min.apply(null, parametro)
+
+
+}
+
+
+function getCapacityEvents(parametro) {
+    
+     
+   return Math.max.apply(null, parametro)
+
+}
+function getAttendance(datos) {
+for (const iterator of datos[0].events) {
+if (datos[0].currentDate>iterator.date) {
+     acumuladorattendance.push(Math.round((iterator.assistance / iterator.capacity) * 100))
+}
+
+   
+}
+
+return acumuladorattendance;
+}
+  function getCapacity(datos){
+
+
+for (const iterator of datos[0].events) {
+    let nombre = iterator.name
+    acumuladorcapacity.push(   iterator.capacity )
+    
+}
+
+return acumuladorcapacity;
+
+}
 
 
 
